@@ -1,0 +1,6 @@
+@JwtAutorizacionAutenciacionEnRoles_HostAddress = http://localhost:5234
+
+GET {{JwtAutorizacionAutenciacionEnRoles_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
