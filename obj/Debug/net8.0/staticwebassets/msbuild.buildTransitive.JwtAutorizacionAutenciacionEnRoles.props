@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\JwtAutorizacionAutenciacionEnRoles.props" />
+</Project>

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "a6yrYoQtsRx3ttksJ1E5TxnHFamdHWSe1GLtj96tYPc=",
+  "Source": "JwtAutorizacionAutenciacionEnRoles",
+  "BasePath": "_content/JwtAutorizacionAutenciacionEnRoles",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
