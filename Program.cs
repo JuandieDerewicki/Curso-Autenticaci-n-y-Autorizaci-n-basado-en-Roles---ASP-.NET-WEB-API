@@ -1,5 +1,7 @@
 using JwtAutorizacionAutenciacionEnRoles.Core.DbContext;
 using JwtAutorizacionAutenciacionEnRoles.Core.Entities;
+using JwtAutorizacionAutenciacionEnRoles.Core.Interfaces;
+using JwtAutorizacionAutenciacionEnRoles.Core.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -64,6 +66,9 @@ builder.Services
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
         };
     });
+
+// Inyeccion de dependencias
+builder.Services.AddScoped<IAuthService, AuthService>();   
 
 
 // Pipeline
