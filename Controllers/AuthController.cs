@@ -43,27 +43,28 @@ namespace JwtAutorizacionAutenciacionEnRoles.Controllers
             return Ok("Role Seeding Done Succesfully");
         }
 
+        // Route -> Register
         [HttpPost]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            var isExistUser = await _userManager.FindByNameAsync(registerDto.UserName);
+            var isExistsUser = await _userManager.FindByNameAsync(registerDto.UserName);
 
-            if (isExistUser != null)
+            if (isExistsUser != null)
                 return BadRequest("UserName Already Exists");
 
             IdentityUser newUser = new IdentityUser()
             {
                 Email = registerDto.Email,
                 UserName = registerDto.UserName,
-                SecurityStamp = Guid.NewGuid().ToString()
+                SecurityStamp = Guid.NewGuid().ToString(),
             };
 
             var createUserResult = await _userManager.CreateAsync(newUser, registerDto.Password);
 
             if (!createUserResult.Succeeded)
             {
-                var errorString = "User Creation Failed Because: ";
+                var errorString = "User Creation Failed Beacause: ";
                 foreach (var error in createUserResult.Errors)
                 {
                     errorString += " # " + error.Description;
@@ -71,10 +72,10 @@ namespace JwtAutorizacionAutenciacionEnRoles.Controllers
                 return BadRequest(errorString);
             }
 
-            // Agregamos user por defecto a todos los usuarios
+            // Add a Default USER Role to all users
             await _userManager.AddToRoleAsync(newUser, StaticUserRoles.USER);
 
-            return Ok("User Created Succesfully");
+            return Ok("User Created Successfully");
         }
 
         [HttpPost]
@@ -84,21 +85,20 @@ namespace JwtAutorizacionAutenciacionEnRoles.Controllers
             var user = await _userManager.FindByNameAsync(loginDto.UserName);
 
             if (user is null)
-                return Unauthorized("Invalid Credentianls");
+                return Unauthorized("Invalid Credentials");
 
             var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, loginDto.Password);
 
             if (!isPasswordCorrect)
-                return Unauthorized("Invalid Credentianls");
+                return Unauthorized("Invalid Credentials");
 
             var userRoles = await _userManager.GetRolesAsync(user);
 
-            // Necesitamos Claims para los roles
             var authClaims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim("JWTID", Guid.NewGuid().ToString())
+                new Claim("JWTID", Guid.NewGuid().ToString()),
             };
 
             foreach (var userRole in userRoles)
@@ -123,11 +123,38 @@ namespace JwtAutorizacionAutenciacionEnRoles.Controllers
                     signingCredentials: new SigningCredentials(authSecret, SecurityAlgorithms.HmacSha256)
                 );
 
-            string token = new JwtSecurityTokenHandler().WriteToken(tokenObject);   
+            string token = new JwtSecurityTokenHandler().WriteToken(tokenObject);
 
             return token;
         }
 
+        [HttpPost]
+        [Route("make-admin")]
+        public async Task<IActionResult> MakeAdmin([FromBody] UpdatePermissionDto updatePermissionDto)
+        {
+            var user = await _userManager.FindByNameAsync(updatePermissionDto.UserName);
+
+            if (user is null)
+                return BadRequest("Invalid User Name");
+
+            await _userManager.AddToRoleAsync(user, StaticUserRoles.ADMIN);
+
+            return Ok("User is now an ADMIN");
+        }
+
+        [HttpPost]
+        [Route("make-owner")]
+        public async Task<IActionResult> MakeOwner([FromBody] UpdatePermissionDto updatePermissionDto)
+        {
+            var user = await _userManager.FindByNameAsync(updatePermissionDto.UserName);
+
+            if (user is null)
+                return BadRequest("Invalid User Name");
+
+            await _userManager.AddToRoleAsync(user, StaticUserRoles.OWNER);
+
+            return Ok("User is now an OWNER");
+        }
     }
 }
 

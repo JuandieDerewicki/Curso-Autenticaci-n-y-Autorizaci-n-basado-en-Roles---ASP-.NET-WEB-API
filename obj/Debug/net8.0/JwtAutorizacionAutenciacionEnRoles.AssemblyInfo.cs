@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JwtAutorizacionAutenciacionEnRoles")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba1c34b4e29ed814175caca354b631fe0194f993")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dbcd70e247e78674c826e318ed27d351b32e6c0d")]
 [assembly: System.Reflection.AssemblyProductAttribute("JwtAutorizacionAutenciacionEnRoles")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JwtAutorizacionAutenciacionEnRoles")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
