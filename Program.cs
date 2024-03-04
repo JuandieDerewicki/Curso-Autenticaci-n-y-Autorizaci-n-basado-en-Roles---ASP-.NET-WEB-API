@@ -1,4 +1,5 @@
 using JwtAutorizacionAutenciacionEnRoles.Core.DbContext;
+using JwtAutorizacionAutenciacionEnRoles.Core.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,9 +20,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+// VERSION 1
 // Agregar Identity que es un marco de trabajo que permite la gestion de usuarios, roles, autenticacion y autorizacion 
+//builder.Services
+//    .AddIdentity<IdentityUser, IdentityRole>()
+//    .AddEntityFrameworkStores<ApplicationDbContext>()
+//    .AddDefaultTokenProviders();
+
 builder.Services
-    .AddIdentity<IdentityUser, IdentityRole>()
+    .AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
