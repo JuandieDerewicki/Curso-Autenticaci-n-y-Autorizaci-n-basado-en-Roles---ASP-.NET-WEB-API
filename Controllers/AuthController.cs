@@ -54,10 +54,13 @@ namespace JwtAutorizacionAutenciacionEnRoles.Controllers
             if (isExistsUser != null)
                 return BadRequest("UserName Already Exists");
 
-            IdentityUser newUser = new ApplicationUser()
+            // IdentityUser newUser = new IdentityUser()
+            ApplicationUser newUser = new ApplicationUser()
             {
+                // VERSION 1
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
+                // 
                 Email = registerDto.Email,
                 UserName = registerDto.UserName,
                 SecurityStamp = Guid.NewGuid().ToString(),
@@ -102,6 +105,9 @@ namespace JwtAutorizacionAutenciacionEnRoles.Controllers
                 new Claim(ClaimTypes.Name, user.UserName),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim("JWTID", Guid.NewGuid().ToString()),
+                // VERSION 1 
+                new Claim("FirstName", user.FirstName),
+                new Claim("LastName", user.LastName),
             };
 
             foreach (var userRole in userRoles)
